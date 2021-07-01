@@ -24,17 +24,14 @@ const fetchWordError = (err) => {
     payload: err,
   };
 };
-const fetchSingleWordError = (err) => {
-  return {
-    type: FETCH_WORD_ERROR,
-    payload: err,
-  };
-};
 
-const setSingleWord = (payload) => ({
-    type: FETCH_SINGLE_WORD,
-    payload
-})
+
+const setSingleWord = (data) => {
+    return {
+        type: FETCH_SINGLE_WORD,
+        payload: data
+    }
+}
 
 export const fetchAllWords = () => {
   return function (dispatch) {
@@ -65,16 +62,10 @@ export const addWord = (word) => {
   };
 };
 export const getWord = (word) => {
-  return function (dispatch) {
-    DictionaryService.getWordById(word)
-      .then((response) => {
-        const { data } = response;
-        //dispatch add response
-        dispatch(setSingleWord(data.data.getWord));
-      })
-      .catch((err) => {
-        //dispatch error response
-        dispatch(fetchSingleWordError(err.message));
-      });
-  };
-};
+  return async function (dispatch) {
+    const response = await DictionaryService.getWordById(word)
+    const { data } = response;
+    dispatch(setSingleWord(data.data.getWord))
+}
+}
+    

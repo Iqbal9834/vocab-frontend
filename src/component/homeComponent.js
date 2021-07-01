@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 
 import "../App.css";
 import SearchBar from "material-ui-search-bar";
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from "@material-ui/core/IconButton";
 
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -96,17 +96,19 @@ export default function HomeComponent() {
       setSearchedWords({ result: allWords.words });
     }
   }, [allWords]);
+  useEffect(() => {
+    setDialogueContent(wordDetail);
+  }, []);
   const handleClick = async (word) => {
     dispatch(getWord(word));
-    const { data } = await DictionaryService.getWordById(word);
-    setDialogueContent(data.data.getWord);
     setShow(true);
-    console.log(wordDetail);
   };
   const onSearch = (value) => {
     // filter on the basis of value enter in search bar
     setSearchedWords({
-      result: words.result.filter((item) => item.id.toLowerCase()?.includes(value.toLowerCase())),
+      result: words.result.filter((item) =>
+        item.id.toLowerCase()?.includes(value.toLowerCase())
+      ),
     });
   };
   const onSubmit = async (e) => {
